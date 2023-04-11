@@ -50,7 +50,57 @@ public:
     Json & operator [](const char *key);
     Json & operator [](const string &key);
 
-    //json操作
+    /**
+     * 重载赋值运算符
+     * @param other
+     */
+    void operator = (const Json & other);
+
+    /**
+     * 重载==运算符
+     * @param other
+     */
+    bool operator == (const Json & other);
+
+    /**
+     * 重载 ！= 运算符
+     * @param other
+     */
+    bool operator != (const Json & other);
+
+    bool isNull() const {return m_type == json_null;}
+    bool isBool() const {return m_type == json_bool;}
+    bool isInt() const {return m_type == json_int;}
+    bool isDouble() const {return m_type == json_double;}
+    bool isString() const {return m_type == json_string;}
+    bool isArray() const {return m_type == json_array;}
+    bool isObj() const {return m_type == json_object;}
+
+    /**
+     * 显式类型转换
+     * @return
+     */
+    bool asBool() const;
+    int asInt() const;
+    double asDouble() const;
+    string asString() const;
+
+    /**
+     * has方法
+     * @param index
+     * @return
+     */
+    bool has(int index);
+    bool has(const char * key);
+    bool has(const string &key);
+
+    /**
+     * remove方法
+     * @param index
+     */
+    void remove(int index);
+    void remove(const char * key);
+    void remove(const string & key);
 
     /**
      * 追加一个元素
@@ -63,6 +113,25 @@ public:
      * @return
      */
     string str() const;
+
+    /**
+     * 拷贝
+     * @param other
+     */
+    void copy(const Json & other);
+
+    /**
+     * 释放内存
+     */
+    void clear();
+
+    typedef vector<Json> :: iterator iterator;
+    iterator begin(){
+        return (m_value.m_array)->begin();
+    }
+    iterator end(){
+        return (m_value.m_array)->end();
+    }
 private:
     union Value{
         bool m_bool;
