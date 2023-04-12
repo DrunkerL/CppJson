@@ -4,6 +4,7 @@
 #include <stdexcept>
 #include <sstream>
 #include "Json.h"
+#include "Parser.h"
 using namespace std;
 using namespace DrunkerL;
 using namespace json;
@@ -23,7 +24,7 @@ Json::Json(double value) : m_type(json_double){
 Json::Json(const char* value) : m_type(json_string){
     m_value.m_string = new string(value);
 }
-Json::Json(string &value) : m_type(json_string){
+Json::Json(const string &value) : m_type(json_string){
     m_value.m_string = new string(value);
 }
 Json::Json(Type type) : m_type(type){
@@ -53,9 +54,7 @@ Json::Json(Type type) : m_type(type){
 
     }
 }
-Json::Json(const Json &other){
-    copy(other);
-}
+
 
 
 Json::operator bool(){
@@ -329,4 +328,10 @@ void Json::remove(const string & key){
         (m_value.m_object)->erase(key);
     }
 
+}
+
+void Json::parse(const std::string &str) {
+    Parser p;
+    p.load(str);
+    *(this) = p.parse();
 }

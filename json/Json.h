@@ -1,6 +1,8 @@
 //
 // Created by ASUS on 2023/4/10.
 //
+#ifndef CPPJSON_JSON_H
+#define CPPJSON_JSON_H
 #include <string>
 #include <vector>
 #include <map>
@@ -26,9 +28,8 @@ public:
     Json(int value);
     Json(double value);
     Json(const char* value);
-    Json(string &value);
+    Json(const string &value);
     Json(Type type);
-    Json(const Json &other);
 
     //运算符重载
     operator bool();
@@ -132,6 +133,8 @@ public:
     iterator end(){
         return (m_value.m_array)->end();
     }
+
+    void parse(const string & str);
 private:
     union Value{
         bool m_bool;
@@ -147,3 +150,4 @@ private:
 
 }}
 
+#endif
